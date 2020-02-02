@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.IO;
 using TicketsApps.AppCode;
 using TicketsApps.Models;
 
@@ -53,9 +54,10 @@ namespace TicketsApps.Controllers
             var html = this.RenderViewAsync("_TicketPdf", model);
             var ironPdfRender = new IronPdf.HtmlToPdf();
             var pdfDoc = ironPdfRender.RenderHtmlAsPdf(html.Result);
+            var path = Path.Combine(
+                  Directory.GetCurrentDirectory(), "wwwroot");
+            //var images = pdfDoc.RasterizeToImageFiles($@"{path}\thumbnail_*.jpg", 100, 80);
             return File(pdfDoc.Stream.ToArray(), "application/pdf");
-            //return View(model);
         }
-
     }
 }
