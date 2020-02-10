@@ -11,17 +11,14 @@ namespace HelloWorld
     {
         static void Main(string[] args)
         {
-            var newXLFile = WorkBook.Create(ExcelFileFormat.XLSX);
-            newXLFile.Metadata.Title = "IronXL New File";
-            var newWorkSheet = newXLFile.CreateWorkSheet("1stWorkSheet");
-            newWorkSheet["A1"].Value = "Hello World";
-            newWorkSheet["A2"].Style.BottomBorder.SetColor("#ff6600");
-            newWorkSheet["A2"].Style.BottomBorder.Type = IronXL.Styles.BorderType.Dashed;
-            newXLFile.ExportToHtml($@"{Directory.GetCurrentDirectory()}\Files\HelloWorldHTML.HTML");
-            //newXLFile.SaveAsXml($@"{Directory.GetCurrentDirectory()}\Files\HelloWorldXML.XML");
-            //newXLFile.SaveAsJson($@"{Directory.GetCurrentDirectory()}\Files\HelloWorldJSON.json");
-            //newXLFile.SaveAsCsv($@"{Directory.GetCurrentDirectory()}\Files\HelloWorldCSV.csv",delimiter:"|");
-            //newXLFile.SaveAs($@"{Directory.GetCurrentDirectory()}\Files\HelloWorld.xlsx");
+            var workbook = IronXL.WorkBook.Load($@"{Directory.GetCurrentDirectory()}\Files\Sum.xlsx");
+            var sheet = workbook.WorkSheets.First();
+            decimal sum = sheet["A2:A4"].Sum();
+            decimal avg = sheet["A2:A4"].Avg();
+            decimal count = sheet["A2:A4"].Count();
+            Console.WriteLine(sum);
+            Console.WriteLine(avg);
+            Console.WriteLine(count);
         }
         static void CreateExcelFile()
         {
@@ -63,6 +60,20 @@ namespace HelloWorld
             var xmldataset = countryList.ToDataSet();
             var workbook = IronXL.WorkBook.Load(xmldataset);
             var sheet = workbook.WorkSheets.First();
+        }
+        static void SaveXL()
+        {
+            var newXLFile = WorkBook.Create(ExcelFileFormat.XLSX);
+            newXLFile.Metadata.Title = "IronXL New File";
+            var newWorkSheet = newXLFile.CreateWorkSheet("1stWorkSheet");
+            newWorkSheet["A1"].Value = "Hello World";
+            newWorkSheet["A2"].Style.BottomBorder.SetColor("#ff6600");
+            newWorkSheet["A2"].Style.BottomBorder.Type = IronXL.Styles.BorderType.Dashed;
+            newXLFile.ExportToHtml($@"{Directory.GetCurrentDirectory()}\Files\HelloWorldHTML.HTML");
+            //newXLFile.SaveAsXml($@"{Directory.GetCurrentDirectory()}\Files\HelloWorldXML.XML");
+            //newXLFile.SaveAsJson($@"{Directory.GetCurrentDirectory()}\Files\HelloWorldJSON.json");
+            //newXLFile.SaveAsCsv($@"{Directory.GetCurrentDirectory()}\Files\HelloWorldCSV.csv",delimiter:"|");
+            //newXLFile.SaveAs($@"{Directory.GetCurrentDirectory()}\Files\HelloWorld.xlsx");
         }
     }
 }
